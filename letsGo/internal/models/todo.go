@@ -7,5 +7,6 @@ type Todo struct{
 	Title string  `json:"title"`
 	Description string `json:"description"`
 	isCompleted bool `json:"completed"`
-	userId uint
+	UserID uint `json:"user_id"` // ✅ exported and usable by GORM
+
 }
