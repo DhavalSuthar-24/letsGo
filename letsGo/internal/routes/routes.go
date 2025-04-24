@@ -5,7 +5,7 @@ import (
 	"gorm.io/gorm"
 
 	"github.com/DhavalSuthar-24/letsGo/internal/controllers"
-	"github.com/DhavalSuthar-24/letsGo/internal/middlewares"
+	"github.com/DhavalSuthar-24/letsGo/internal/middleware" // Fixed import path
 	"github.com/DhavalSuthar-24/letsGo/internal/repositories"
 	"github.com/DhavalSuthar-24/letsGo/internal/services"
 )
@@ -30,13 +30,13 @@ func SetupRoutes(db *gorm.DB) *gin.Engine {
 			c.String(200, "lets fuc*ing go with Go")
 		})
 
-		// Auth routes
+		// Auth routes (unprotected)
 		api.POST("/register", authController.Register)
-		api.POST("/login", authController.Login) // Changed from GET to POST
+		api.POST("/login", authController.Login)
 
 		// Todo routes (protected)
 		todoGroup := api.Group("/todos")
-		todoGroup.Use(middlewares.AuthMiddleware())
+		todoGroup.Use(middleware.AuthMiddleware()) // Proper middleware usage
 		{
 			todoGroup.POST("/", todoController.CreateTodo)
 			todoGroup.GET("/", todoController.GetTodos)
